@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLEx | Digital Content Creator & Professional Editor</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ===================================================== */
+        /* ================== 🎨 CSS STYLES (UNCHANGED CORE) ==================== */
+        /* ===================================================== */
+        :root {
+            --primary-purple: #7c6dfa;
+            --secondary-purple: #c084fc;
+            --accent-pink: #f472b6;
+            --accent-cyan: #22d3ee;
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --card-bg: #0f0f14;
+            --card-border: rgba(255, 255, 255, 0.07);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --gradient-primary: linear-gradient(135deg, #7c6dfa 0%, #c084fc 50%, #f472b6 100%);
+            --gradient-hover: linear-gradient(135deg, #8b7dfb 0%, #d494fc 50%, #f687c0 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden !important; 
+            max-width: 100%; 
+            width: 100%;
+            position: relative;
+        }
+
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: rgba(10, 10, 15, 0.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border); transition: all 0.3s ease;
+        }
+        .navbar.scrolled { padding: 0.7rem 2rem; background: rgba(10, 10, 15, 0.95); }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700;
+            background: var(--gradient-primary); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; position: relative; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--gradient-primary); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta { padding: 0.6rem 1.5rem; background: var(--gradient-primary); border: none; border-radius: 50px; color: white; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .nav-cta:hover { background: var(--gradient-hover); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(124, 109, 250, 0.4); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 6rem 2rem 4rem; }
+        .hero-video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; z-index: 0; }
+        .hero-gradient-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, transparent 0%, var(--dark-bg) 70%); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 1000px; }
+        .hero-badge { display: inline-block; padding: 0.5rem 1.5rem; background: rgba(124, 109, 250, 0.1); border: 1px solid rgba(124, 109, 250, 0.3); border-radius: 50px; font-size: 0.85rem; font-weight: 500; color: var(--primary-purple); margin-bottom: 1.5rem; letter-spacing: 2px; text-transform: uppercase; }
+        .hero-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero-title .highlight { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-description { font-size: 1.2rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.8; }
+        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { padding: 1rem 2.5rem; background: var(--gradient-primary); border: none; border-radius: 50px; color: white; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-primary:hover { background: var(--gradient-hover); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(124, 109, 250, 0.4); }
+        .btn-secondary { padding: 1rem 2.5rem; background: transparent; border: 1px solid var(--card-border); border-radius: 50px; color: var(--text-primary); font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--primary-purple); transform: translateY(-3px); }
+
+        /* Orbit Animation */
+        .orbit-container { position: absolute; width: 500px; height: 500px; z-index: 1; opacity: 0.6; }
+        .orbit { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: orbit 20s linear infinite; }
+        .orbit-icon { position: absolute; width: 50px; height: 50px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary-purple); box-shadow: 0 0 20px rgba(124, 109, 250, 0.2); }
+        .orbit-icon:nth-child(1) { top: -250px; left: -25px; } .orbit-icon:nth-child(2) { top: -180px; left: 200px; } .orbit-icon:nth-child(3) { top: -50px; left: 260px; } .orbit-icon:nth-child(4) { top: 80px; left: 200px; } .orbit-icon:nth-child(5) { top: 180px; left: 50px; } .orbit-icon:nth-child(6) { top: 80px; left: -180px; } .orbit-icon:nth-child(7) { top: -50px; left: -260px; } .orbit-icon:nth-child(8) { top: -180px; left: -200px; }
+        @keyframes orbit { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        .scroll-indicator { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.8rem; animation: bounce 2s infinite; }
+        .scroll-indicator i { font-size: 1.5rem; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-10px); } 60% { transform: translateX(-50%) translateY(-5px); } }
+
+        /* ================= 👨‍💻 ABOUT SECTION START ================== */
+        section { padding: 6rem 2rem; position: relative; width: 100%; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-tag { display: inline-block; padding: 0.4rem 1rem; background: rgba(124, 109, 250, 0.1); border: 1px solid rgba(124, 109, 250, 0.2); border-radius: 50px; font-size: 0.8rem; font-weight: 600; color: var(--primary-purple); margin-bottom: 1rem; letter-spacing: 1px; text-transform: uppercase; }
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+        .section-description { color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+        .container { max-width: 1400px; margin: 0 auto; width: 100%; }
+
+        .about { background: var(--darker-bg); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .about-image { position: relative; width: 100%; }
+        .about-image-wrapper { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--card-border); width: 100%; }
+        .about-image img { width: 100%; height: 500px; object-fit: cover; display: block; }
+        .about-image-wrapper::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--gradient-primary); opacity: 0.1; z-index: 1; }
+        .about-stats { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); display: flex; gap: 1rem; z-index: 2; width: max-content; }
+        .stat-card { background: var(--card-bg); padding: 1.5rem 2rem; border-radius: 15px; border: 1px solid var(--card-border); text-align: center; backdrop-filter: blur(10px); }
+        .stat-number { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+        .about-content h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .about-content p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.8; }
+        .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 2rem; }
+        .skill-item { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--card-bg); border-radius: 10px; border: 1px solid var(--card-border); transition: all 0.3s ease; }
+        .skill-item:hover { border-color: var(--primary-purple); transform: translateY(-2px); }
+        .skill-item i { color: var(--primary-purple); font-size: 1.2rem; }
+        .skill-item span { font-weight: 500; font-size: 0.95rem; }
+        .design-philosophy { margin-top: 2rem; padding: 1.5rem; background: rgba(124, 109, 250, 0.05); border-left: 3px solid var(--primary-purple); border-radius: 0 10px 10px 0; }
+        .design-philosophy h4 { color: var(--primary-purple); margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .design-philosophy p { margin: 0; font-style: italic; color: var(--text-primary); }
+
+        /* ================= 📁 PROJECTS SECTION START ================== */
+        .projects { background: var(--dark-bg); }
+        .projects-subsection { margin-bottom: 5rem; }
+        .projects-subsection:last-child { margin-bottom: 0; }
+        .subsection-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--card-border); }
+        .subsection-header i { font-size: 1.5rem; color: var(--primary-purple); }
+        .subsection-header h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 600; }
+        .subsection-header .badge { padding: 0.3rem 0.8rem; background: rgba(124, 109, 250, 0.1); border-radius: 50px; font-size: 0.75rem; color: var(--primary-purple); }
+        .projects-grid-landscape { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .projects-grid-portrait { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+        .project-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; transition: all 0.4s ease; position: relative; }
+        .project-card:hover { transform: translateY(-8px); border-color: var(--primary-purple); box-shadow: 0 20px 40px rgba(124, 109, 250, 0.15); }
+        .project-thumbnail-landscape { position: relative; width: 100%; padding-top: 56.25%; overflow: hidden; cursor: pointer; }
+        .project-thumbnail-portrait { position: relative; width: 100%; padding-top: 177.78%; overflow: hidden; cursor: pointer; }
+        
+        .project-thumbnail-landscape img, .project-thumbnail-portrait img,
+        .project-thumbnail-landscape video, .project-thumbnail-portrait video,
+        .project-thumbnail-landscape iframe, .project-thumbnail-portrait iframe { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; border: none; 
+        }
+        .project-card:hover .project-thumbnail-landscape img, .project-card:hover .project-thumbnail-portrait img { transform: scale(1.1); }
+        
+        .thumbnail-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+        .project-card:hover .thumbnail-overlay { opacity: 1; }
+        
+        .play-button { width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; transform: scale(0.8); transition: transform 0.3s ease; }
+        .project-card:hover .play-button { transform: scale(1); }
+        .project-duration { position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.8); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; pointer-events: none; }
+        
+        .project-info { padding: 1.5rem; }
+        .project-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .project-description { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .project-tag { padding: 0.25rem 0.75rem; background: rgba(124, 109, 250, 0.1); border: 1px solid rgba(124, 109, 250, 0.2); border-radius: 50px; font-size: 0.75rem; color: var(--primary-purple); font-weight: 500; }
+        .project-buttons { display: flex; gap: 0.75rem; }
+        .project-btn { flex: 1; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-align: center; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; }
+        .project-btn-primary { background: var(--gradient-primary); color: white; }
+        .project-btn-primary:hover { background: var(--gradient-hover); transform: translateY(-2px); }
+        .project-btn-secondary { background: transparent; border: 1px solid var(--card-border); color: var(--text-secondary); }
+        .project-btn-secondary:hover { border-color: var(--primary-purple); color: var(--primary-purple); }
+
+        /* ================= ⚡ SERVICES SECTION START ================== */
+        .services { background: var(--darker-bg); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .service-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 2.5rem; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; width: 100%; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-primary); transform: scaleX(0); transition: transform 0.4s ease; }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--primary-purple); box-shadow: 0 30px 60px rgba(124, 109, 250, 0.15); }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-icon { width: 80px; height: 80px; background: rgba(124, 109, 250, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: var(--primary-purple); transition: all 0.3s ease; }
+        .service-card:hover .service-icon { background: var(--gradient-primary); color: white; transform: rotateY(180deg); }
+        .service-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; }
+        .service-description { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+
+        /* ================= 📞 CONTACT SECTION START ================== */
+        .contact { background: var(--dark-bg); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; width: 100%; }
+        .contact-info { width: 100%; }
+        .contact-info h3 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; margin-bottom: 1.5rem; }
+        .contact-info p { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.8; }
+        .contact-links { display: flex; flex-direction: column; gap: 1.5rem; }
+        .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1.5rem; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; text-decoration: none; color: var(--text-primary); transition: all 0.3s ease; width: 100%; overflow: hidden; }
+        .contact-link:hover { border-color: var(--primary-purple); transform: translateX(10px); }
+        .contact-link i { width: 50px; height: 50px; flex-shrink: 0; background: rgba(124, 109, 250, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary-purple); }
+        .contact-link-text { overflow: hidden; }
+        .contact-link-text span { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+        .contact-link-text strong { font-size: 1.1rem; word-break: break-all; }
+        .contact-form { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 3rem; width: 100%; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 1rem 1.25rem; background: var(--dark-bg); border: 1px solid var(--card-border); border-radius: 10px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 1rem; transition: all 0.3s ease; box-sizing: border-box; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(124, 109, 250, 0.1); }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .submit-btn { width: 100%; padding: 1.2rem; background: var(--gradient-primary); border: none; border-radius: 10px; color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .submit-btn:hover { background: var(--gradient-hover); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(124, 109, 250, 0.4); }
+
+        /* ================= 🏁 FOOTER SECTION START ================== */
+        footer { background: var(--darker-bg); padding: 4rem 2rem 2rem; border-top: 1px solid var(--card-border); width: 100%; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; width: 100%; }
+        .footer-brand .logo { display: inline-block; margin-bottom: 1rem; }
+        .footer-brand p { color: var(--text-secondary); line-height: 1.8; }
+        .footer-links h4 { font-family: 'Space Grotesk', sans-serif; margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--primary-purple); }
+        .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .social-link { width: 45px; height: 45px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s ease; }
+        .social-link:hover { background: var(--gradient-primary); border-color: transparent; color: white; transform: translateY(-3px); }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.9rem; width: 100%; }
+
+        /* ================= 🌀 CSS: MOBILE & ANIMATIONS (Updated Responsiveness) ================ */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        @media (min-width: 769px) {
+            .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s ease; }
+            .reveal-left.active { opacity: 1; transform: translateX(0); }
+            .reveal-right { opacity: 0; transform: translateX(50px); transition: all 0.8s ease; }
+            .reveal-right.active { opacity: 1; transform: translateX(0); }
+        }
+
+        /* MOBILE FIXES START HERE */
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .orbit-container { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            /* Animation fixes for smaller screens */
+            .reveal-left { opacity: 0; transform: translateY(40px) !important; transition: all 0.8s ease; }
+            .reveal-right { opacity: 0; transform: translateY(40px) !important; transition: all 0.8s ease; }
+            .reveal-left.active, .reveal-right.active { opacity: 1; transform: translateY(0) !important; }
+
+            .nav-links { display: none; }
+            .nav-cta { display: none; }
+            .mobile-menu-btn { display: block; }
+            
+            section { padding: 4rem 1.5rem; width: 100vw; max-width: 100%; box-sizing: border-box; } 
+            .hero { padding: 6rem 1.5rem 5rem; }
+            .navbar { padding: 1rem 1.5rem; width: 100vw; max-width: 100%; }
+            
+            .hero-content { width: 100%; margin: 0 auto; padding: 0; }
+            .hero-title { font-size: 2.2rem; }
+
+            .projects-grid-landscape { grid-template-columns: 1fr; }
+            .projects-grid-portrait { grid-template-columns: repeat(2, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .social-links { justify-content: center; }
+            .contact-form { padding: 2rem 1.5rem; }
+            
+            .close-modal { right: 10px; top: -45px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero { padding: 5rem 1.2rem 8rem; } 
+            .hero-title { font-size: 1.9rem; margin-bottom: 1rem; }
+            .hero-description { font-size: 0.95rem; margin-bottom: 2rem; padding: 0; } 
+            
+            .hero-buttons { flex-direction: column; width: 100%; gap: 1rem; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+            .about-stats {
+                flex-direction: row; 
+                position: relative;
+                bottom: 0;
+                transform: none;
+                left: 0;
+                width: 100%;
+                margin-top: -1.5rem; 
+                justify-content: space-between;
+                gap: 0.5rem;
+            }
+            .stat-card { padding: 0.8rem 0.5rem; flex: 1; }
+            .stat-number { font-size: 1.2rem; }
+            .stat-label { font-size: 0.6rem; }
+            
+            .projects-grid-portrait { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* --- VIDEO MODAL CSS (UNCHANGED) --- */
+        .video-modal { display: none; position: fixed; z-index: 100000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .video-modal-content { position: relative; width: 90%; max-width: 1000px; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 0 40px rgba(124, 109, 250, 0.4); animation: modalZoom 0.3s ease-out; }
+        @keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .video-modal-content iframe, .video-modal-content video { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+        .portrait-video iframe, .portrait-video video { aspect-ratio: 9/16; max-height: 85vh; width: auto; margin: 0 auto; }
+        .close-modal { position: absolute; top: -40px; right: 0; color: white; font-size: 35px; font-weight: bold; cursor: pointer; z-index: 100001; transition: color 0.3s; }
+        .close-modal:hover { color: var(--accent-pink); }
+        .modal-wrapper { position: relative; width: 100%; display: flex; justify-content: center; }
+        
+        /* Mobile Nav */
+        .mobile-nav { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 15, 0.98); backdrop-filter: blur(20px); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; transform: translateX(100%); transition: transform 0.4s ease; }
+        .mobile-nav.active { transform: translateX(0); }
+        .mobile-nav a { font-size: 1.5rem; color: var(--text-primary); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .mobile-nav a:hover { color: var(--primary-purple); }
+        .mobile-nav-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: var(--text-primary); font-size: 2rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================================== -->
+    <!-- ================= 📌 NAVBAR SECTION START (No Change) ================ -->
+    <!-- ========================================================== -->
+    <nav class="navbar">
+        <a href="#" class="logo">BLEx</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Get in Touch</a>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" onclick="toggleMobileNav()"><i class="fas fa-times"></i></button>
+        <a href="#about" onclick="toggleMobileNav()">About</a>
+        <a href="#projects" onclick="toggleMobileNav()">Projects</a>
+        <a href="#services" onclick="toggleMobileNav()">Services</a>
+        <a href="#contact" onclick="toggleMobileNav()">Contact</a>
+    </div>
+    <!-- ========================================================== -->
+    <!-- ================= 📌 NAVBAR SECTION END ================== -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- ================= 🚀 HERO SECTION START ================== -->
+    <!-- ========================================================== -->
+    <section class="hero" id="hero">
+        <!-- ================================================== -->
+        <!-- 🎬 HERO BACKGROUND VIDEO: Yahan apna MP4 Video Link daalo -->
+        <!-- ================================================== -->
+        <video class="hero-video-bg" autoplay muted loop playsinline>
+            <source src="3d motion blex.mp4" type="video/mp4">
+        </video>
+        
+        <div class="hero-gradient-overlay"></div>
+
+        <div class="orbit-container">
+            <div class="orbit">
+                <div class="orbit-icon"><i class="fab fa-adobe"></i></div>
+                <div class="orbit-icon"><i class="fas fa-film"></i></div>
+                <div class="orbit-icon"><i class="fas fa-image"></i></div>
+                <div class="orbit-icon"><i class="fas fa-palette"></i></div>
+                <div class="orbit-icon"><i class="fas fa-microphone"></i></div>
+                <div class="orbit-icon"><i class="fas fa-cut"></i></div>
+                <div class="orbit-icon"><i class="fas fa-play-circle"></i></div>
+                <div class="orbit-icon"><i class="fas fa-video"></i></div>
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <!-- ================================================== -->
+            <!-- =============== EDIT THIS TEXT =================== -->
+            <!-- ================================================== -->
+            <span class="hero-badge">👋 Hii I Am BLEx </span>
+            
+            <h1 class="hero-title">
+                <span class="highlight">welcome</span><br>
+                
+                
+            </h1>
+            
+            <p class="hero-description">
+                Digital Content Creator & Professional Editor
+            </p>
+            
+            <div class="hero-buttons">
+                <a href="#projects" class="btn-primary"><i class="fas fa-play"></i> View My Work</a>
+                <a href="#contact" class="btn-secondary"><i class="fas fa-paper-plane"></i> Let's Collaborate</a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll Down</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+    <!-- ========================================================== -->
+    <!-- ================= 🚀 HERO SECTION END ==================== -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- ================= 👨‍💻 ABOUT SECTION START ================= -->
+    <!-- ========================================================== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image reveal-left">
+                    <div class="about-image-wrapper">
+                        <!-- ================================================== -->
+                        <!-- 🖼️ ABOUT PHOTO: Yahan apna Profile Photo Link daalo -->
+                        <!-- ================================================== -->
+                        <img src="https://i.ibb.co/tpY1TysG/wmremove-transformed.png" alt="Shorma Kumar Naik">
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">100+</div>
+                            <div class="stat-label">Projects Done</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Happy Clients</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-content reveal-right">
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h2>About Me</h2>
+                    
+                    <p>
+                        I'm a passionate Digital Content Creator and Professional Editor 
+                        specializing in high-impact video editing and bold graphic design. 
+                        With expertise in creating content that stands out, I help brands 
+                        and creators establish a strong visual presence on social media.
+                    </p>
+                    <p>
+                        My approach combines creative storytelling with technical excellence, 
+                        ensuring every piece of content I create delivers results. From 
+                        viral YouTube videos to eye-catching Instagram reels, I bring 
+                        a unique blend of creativity and precision to every project.
+                    </p>
+
+                    <div class="skills-grid">
+                        <div class="skill-item"><i class="fas fa-video"></i><span>Adobe Premiere Pro</span></div>
+                        <div class="skill-item"><i class="fas fa-magic"></i><span>After Effects</span></div>
+                        <div class="skill-item"><i class="fas fa-image"></i><span>Photoshop</span></div>
+                        <div class="skill-item"><i class="fas fa-pen-nib"></i><span>Illustrator</span></div>
+                        <div class="skill-item"><i class="fas fa-cut"></i><span>CapCut Pro</span></div>
+                        <div class="skill-item"><i class="fas fa-vector-square"></i><span>Canva Pro</span></div>
+                    </div>
+
+                    <div class="design-philosophy">
+                        <h4><i class="fas fa-lightbulb"></i> Design Philosophy</h4>
+                        <!-- ================================================== -->
+                        <!-- =============== EDIT THIS TEXT =================== -->
+                        <!-- ================================================== -->
+                        <p>"Consistency is Key. Great design isn't just about making things look good—it's about creating a cohesive visual language that tells your story and resonates with your audience every single time."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================================================== -->
+    <!-- ================= 👨‍💻 ABOUT SECTION END =================== -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- ================= 📁 PROJECTS SECTION START ================= -->
+    <!-- ========================================================== -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Portfolio</span>
+                <!-- ================================================== -->
+                <!-- =============== EDIT THIS TEXT =================== -->
+                <!-- ================================================== -->
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-description">
+                    A showcase of my best video editing and graphic design work across various platforms and styles.
+                </p>
+            </div>
+
+            <!-- YouTube Videos Section -->
+            <div class="projects-subsection reveal">
+                <div class="subsection-header">
+                    <i class="fab fa-youtube"></i>
+                    <h3>YouTube & Long-Form Video</h3>
+                    <span class="badge">16:9 Landscape</span>
+                </div>
+
+                <div class="projects-grid-landscape">
+                    
+                    <!-- YOUTUBE PROJECT 1 -->
+                    <div class="project-card">
+                        <!-- 📺 YOUTUBE LINK (Popup): Thumbnail Click ke liye Yahan YouTube Link daalo -->
+                        <div class="project-thumbnail-landscape" onclick="openModal('lv_0_20260419015144.mp4')">
+                            <!-- ================================================== -->
+                            <!-- 🖼️ THUMBNAIL IMAGE: Yahan Project Image Link daalo -->
+                            <!-- ================================================== -->
+                            <img src="https://i.ibb.co/GQGY0ZHd/1776614128399.png" alt="Viral Tech Review">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">00:15</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Viral Tech Review</h3>
+                            <p class="project-description">In-depth review of the latest smartphone with dynamic transitions and motion graphics.</p>
+                            
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere Pro</span>
+                                <span class="project-tag">After Effects</span>
+                                <span class="project-tag">Color Grading</span>
+                            </div>
+                            <div class="project-buttons">
+                                <!-- 👉 BUTTON CLICK: Yahan same YouTube Link daalo -->
+                                <button onclick="openModal('lv_0_20260419015144.mp4')" class="project-btn project-btn-primary">View Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YOUTUBE PROJECT 2 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-landscape" onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Gaming Montage">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">8:45</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Gaming Montage</h3>
+                            <p class="project-description">High-energy gaming highlights with custom animations and beat-synced transitions.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere Pro</span>
+                                <span class="project-tag">AE Graphics</span>
+                                <span class="project-tag">Sound Design</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')" class="project-btn project-btn-primary">View Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YOUTUBE PROJECT 3 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-landscape" onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Product Showcase Script">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">15:20</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Product Showcase Script</h3>
+                            <p class="project-description">Professional product video with motion graphics and compelling storytelling.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere Pro</span>
+                                <span class="project-tag">3D Animation</span>
+                                <span class="project-tag">Voiceover</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')" class="project-btn project-btn-primary">View Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YOUTUBE PROJECT 4 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-landscape" onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Music Video Edit">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">4:12</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Music Video Edit</h3>
+                            <p class="project-description">Creative music video with visual effects and rhythmic editing.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere Pro</span>
+                                <span class="project-tag">VFX</span>
+                                <span class="project-tag">Color Grade</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')" class="project-btn project-btn-primary">View Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YOUTUBE PROJECT 5 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-landscape" onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Educational Tutorial">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">18:30</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Educational Tutorial</h3>
+                            <p class="project-description">Clean tutorial video with animations and callouts for easy understanding.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere Pro</span>
+                                <span class="project-tag">Motion Graphics</span>
+                                <span class="project-tag">Screen Record</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')" class="project-btn project-btn-primary">View Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YOUTUBE PROJECT 6 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-landscape" onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Brand Documentary">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">22:15</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Brand Documentary</h3>
+                            <p class="project-description">Cinematic brand story with interviews and b-roll cinematography.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere Pro</span>
+                                <span class="project-tag">DaVinci Resolve</span>
+                                <span class="project-tag">Sound Mix</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_YOUTUBE_LINK_HERE')" class="project-btn project-btn-primary">View Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Reels & Shorts Section -->
+            <div class="projects-subsection reveal">
+                <div class="subsection-header">
+                    <i class="fab fa-instagram"></i>
+                    <h3>Shorts, Reels & Vertical Content</h3>
+                    <span class="badge">9:16 Portrait</span>
+                </div>
+
+                <div class="projects-grid-portrait">
+                    
+                    <!-- REEL 1 (MP4/VERTICAL VIDEO POPUP EXAMPLE) -->
+                    <div class="project-card">
+                        <!-- 🎬🎬🎬 MP4 LINK (Vertical Video): Yahan MP4 Link daalo (Button mein TRUE likhna na bhulein!) 👇 -->
+                        <div class="project-thumbnail-portrait" onclick="openModal('lv_0_20260401002013.mp4', true)">
+                            <!-- ================================================== -->
+                            <!-- 🖼️ REEL THUMBNAIL IMAGE: Yahan Reel ki Photo Link daalo -->
+                            <!-- ================================================== -->
+                            <img src="https://i.ibb.co/cSWghDhn/c829030ba8ed80d5903b98ce338a30eb.jpg" alt="Trending Reel">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">0:30</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Trending Reel</h3>
+                            <p class="project-description">Viral aesthetic content with transitions.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">CapCut</span>
+                                <span class="project-tag">AI Voice</span>
+                            </div>
+                            <div class="project-buttons">
+                                <!-- 👉 BUTTON CLICK: Yahan same MP4 Link daalo, aur TRUE likh kar path bhejein 👇 -->
+                                <button onclick="openModal('lv_0_20260401002013.mp4', true)" class="project-btn project-btn-primary">View Reel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REEL 2 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-portrait" onclick="openModal('lv_0_20260405230358.mp4', true)">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="https://i.ibb.co/qLL8Ky18/1776617418380.png" alt="Gradient Design">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">0:45</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Gradient Design</h3>
+                            <p class="project-description">Bold typography and modern gradients.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">After Effects</span>
+                                <span class="project-tag">AI Art</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('lv_0_20260405230358.mp4', true)" class="project-btn project-btn-primary">View Reel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REEL 3 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-portrait" onclick="openModal('New Project 25 [E7A74B4].mp4', true)">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="https://i.ibb.co/n8gMNWbZ/1776620386631.png" alt="Motion Design">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">0:25</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Motion Design</h3>
+                            <p class="project-description">Smooth animations and visual effects.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Motion</span>
+                                <span class="project-tag">Effects</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('New Project 25 [E7A74B4].mp4', true)" class="project-btn project-btn-primary">View Reel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REEL 4 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-portrait" onclick="openModal('PASTE_YOUR_MP4_LINK_HERE', true)">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Product Teaser">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">0:20</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Product Teaser</h3>
+                            <p class="project-description">Quick product showcase with style.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Premiere</span>
+                                <span class="project-tag">Promo</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_MP4_LINK_HERE', true)" class="project-btn project-btn-primary">View Reel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REEL 5 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-portrait" onclick="openModal('PASTE_YOUR_MP4_LINK_HERE', true)">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Bold Typography">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">0:15</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Bold Typography</h3>
+                            <p class="project-description">Text-driven viral content.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">Canva</span>
+                                <span class="project-tag">Fonts</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_MP4_LINK_HERE', true)" class="project-btn project-btn-primary">View Reel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REEL 6 -->
+                    <div class="project-card">
+                        <div class="project-thumbnail-portrait" onclick="openModal('PASTE_YOUR_MP4_LINK_HERE', true)">
+                            <!-- ================================================== -->
+                            <!-- ================= PHOTO LINK HERE ================ -->
+                            <!-- ================================================== -->
+                            <img src="PASTE_YOUR_IMAGE_LINK_HERE" alt="Trend Hop">
+                            <div class="thumbnail-overlay"><div class="play-button"><i class="fas fa-play"></i></div></div>
+                            <span class="project-duration">0:35</span>
+                        </div>
+                        <div class="project-info">
+                            <!-- ================================================== -->
+                            <!-- =============== EDIT THIS TEXT =================== -->
+                            <!-- ================================================== -->
+                            <h3 class="project-title">Trend Hop</h3>
+                            <p class="project-description">Trending audio with custom visuals.</p>
+                            <div class="project-tags">
+                                <span class="project-tag">CapCut</span>
+                                <span class="project-tag">Trends</span>
+                            </div>
+                            <div class="project-buttons">
+                                <button onclick="openModal('PASTE_YOUR_MP4_LINK_HERE', true)" class="project-btn project-btn-primary">View Reel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================================================== -->
+    <!-- ================= 📁 PROJECTS SECTION END ================= -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- ================= ⚡ SERVICES SECTION START ================= -->
+    <!-- ========================================================== -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">What I Do</span>
+                <!-- ================================================== -->
+                <!-- =============== EDIT THIS TEXT =================== -->
+                <!-- ================================================== -->
+                <h2 class="section-title">Services I Offer</h2>
+                <p class="section-description">
+                    Professional editing and design services tailored to make your content stand out.
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <!-- SERVICE 1 -->
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fab fa-youtube"></i></div>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h3 class="service-title">YouTube Video Editing</h3>
+                    <p class="service-description">Full-service YouTube editing including cuts, transitions, color grading, motion graphics, thumbnails, and sound design to grow your channel.</p>
+                </div>
+
+                <!-- SERVICE 2 -->
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fab fa-instagram"></i></div>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h3 class="service-title">Reels & Shorts Editing</h3>
+                    <p class="service-description">Scroll-stopping vertical content optimized for Instagram Reels, TikTok, and YouTube Shorts with trending formats and effects.</p>
+                </div>
+
+                <!-- SERVICE 3 -->
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-palette"></i></div>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h3 class="service-title">Graphic Design</h3>
+                    <p class="service-description">Bold, high-contrast designs for social media posts, stories, banners, and brand identity with modern visual styles.</p>
+                </div>
+
+                <!-- SERVICE 4 -->
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-magic"></i></div>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h3 class="service-title">Motion Graphics & VFX</h3>
+                    <p class="service-description">Eye-catching animated graphics, intros, outflows, lower thirds, and visual effects to elevate your video content.</p>
+                </div>
+
+                <!-- SERVICE 5 -->
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-microphone"></i></div>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h3 class="service-title">Voiceover & Audio</h3>
+                    <p class="service-description">Professional voiceover services with AI voice technology and high-quality audio mixing for your videos.</p>
+                </div>
+
+                <!-- SERVICE 6 -->
+                <div class="service-card reveal">
+                    <div class="service-icon"><i class="fas fa-image"></i></div>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <h3 class="service-title">Thumbnail Design</h3>
+                    <p class="service-description">Click-worthy YouTube thumbnails with bold typography, high-contrast colors, and engaging compositions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================================================== -->
+    <!-- ================= ⚡ SERVICES SECTION END ================= -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- ================= 📞 CONTACT SECTION START ================= -->
+    <!-- ========================================================== -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Get in Touch</span>
+                <!-- ================================================== -->
+                <!-- =============== EDIT THIS TEXT =================== -->
+                <!-- ================================================== -->
+                <h2 class="section-title">Let's Work Together</h2>
+                <p class="section-description">Have a project in mind? Let's create something amazing together!</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info reveal-left">
+                    <h3>Contact Information</h3>
+                    <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Reach out and let's start the conversation!</p>
+
+                    <div class="contact-links">
+                        <a href="mailto:PASTE_YOUR_EMAIL_HERE" class="contact-link">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-link-text">
+                                <span>Email</span>
+                                <!-- ================================================== -->
+                                <!-- =============== EDIT THIS TEXT =================== -->
+                                <!-- ================================================== -->
+                                <strong>PASTE_YOUR_EMAIL_HERE</strong>
+                            </div>
+                        </a>
+
+                        <a href="PASTE_YOUR_INSTAGRAM_LINK_HERE" target="_blank" class="contact-link">
+                            <i class="fab fa-instagram"></i>
+                            <div class="contact-link-text">
+                                <span>Instagram</span>
+                                <!-- ================================================== -->
+                                <!-- =============== EDIT THIS TEXT =================== -->
+                                <!-- ================================================== -->
+                                <strong>@YOUR_USERNAME_HERE</strong>
+                            </div>
+                        </a>
+
+                        <a href="https://wa.me/PASTE_YOUR_PHONE_NUMBER_HERE" target="_blank" class="contact-link">
+                            <i class="fab fa-whatsapp"></i>
+                            <div class="contact-link-text">
+                                <span>WhatsApp</span>
+                                <!-- ================================================== -->
+                                <!-- =============== EDIT THIS TEXT =================== -->
+                                <!-- ================================================== -->
+                                <strong>PASTE_YOUR_PHONE_NUMBER_HERE</strong>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form reveal-right">
+                    <!-- ================================================== -->
+                    <!-- ======= PASTE YOUR FORMSPREE ENDPOINT HERE ====== -->
+                    <!-- ================================================== -->
+                    <form action="PASTE_YOUR_FORMSPREE_LINK_HERE" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number</label>
+                                <input type="tel" id="mobile" name="mobile" placeholder="Your mobile number" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Project Details</label>
+                            <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================================================== -->
+    <!-- ================= 📞 CONTACT SECTION END ================= -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- ================= 🏁 FOOTER SECTION START ================= -->
+    <!-- ========================================================== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <!-- ================================================== -->
+                <!-- =============== EDIT THIS TEXT =================== -->
+                <!-- ================================================== -->
+                <a href="#" class="logo">SKN.</a>
+                <p>Transforming ideas into captivating visual content. High-impact video editing and bold graphic design that makes your brand unforgettable.</p>
+                
+                <div class="social-links">
+                    <a href="PASTE_YOUR_INSTAGRAM_LINK_HERE" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="PASTE_YOUR_YOUTUBE_LINK_HERE" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="PASTE_YOUR_TWITTER_LINK_HERE" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Contact Info</h4>
+                <ul>
+                    <!-- ================================================== -->
+                    <!-- =============== EDIT THIS TEXT =================== -->
+                    <!-- ================================================== -->
+                    <li><a href="mailto:PASTE_YOUR_EMAIL_HERE">PASTE_YOUR_EMAIL_HERE</a></li>
+                    <li><a href="https://wa.me/PASTE_YOUR_PHONE_NUMBER_HERE">PASTE_YOUR_PHONE_NUMBER_HERE</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <!-- ================================================== -->
+            <!-- =============== EDIT THIS TEXT =================== -->
+            <!-- ================================================== -->
+            <p>&copy; 2026 SKN. | Shorma Kumar Naik. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <!-- ========================================================== -->
+    <!-- ================= 🏁 FOOTER SECTION END ================== -->
+    <!-- ========================================================== -->
+
+
+    <!-- ========================================================== -->
+    <!-- 👉👉👉 HIDDEN VIDEO POPUP MODAL HTML (DO NOT DELETE) 👈👈👈 -->
+    <!-- ========================================================== -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-wrapper">
+            <div class="video-modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <div id="modalVideoContainer">
+                    <!-- Javascript will inject the video/iframe here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- ================= ⚙️ JAVASCRIPT SCRIPTS START ============ -->
+    <!-- (JS is untouched, it handles the popup functionality)      -->
+    <!-- ========================================================== -->
+    <script>
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        document.querySelector('.contact-form form').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+        });
+
+        window.addEventListener('scroll', function() {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.pageYOffset;
+            if (hero) {
+                hero.style.backgroundPositionY = scrolled * 0.3 + 'px';
+            }
+        });
+
+        /* ========================================================== */
+        /* 👉👉👉 VIDEO MODAL LOGIC (Use this for all video links) 👈👈👈 */
+        /* ========================================================== */
+        function openModal(videoUrl, isPortrait = false) {
+            const modal = document.getElementById('videoModal');
+            const container = document.getElementById('modalVideoContainer');
+            const content = document.querySelector('.video-modal-content');
+            
+            if(isPortrait) {
+                content.classList.add('portrait-video');
+            } else {
+                content.classList.remove('portrait-video');
+            }
+
+            let videoHtml = '';
+            let finalUrl = videoUrl;
+
+            if(videoUrl.includes('youtube.com/watch?v=')) {
+                finalUrl = videoUrl.replace('watch?v=', 'embed/');
+                if(finalUrl.includes('&')) {
+                    finalUrl = finalUrl.split('&')[0];
+                }
+            } else if(videoUrl.includes('youtu.be/')) {
+                finalUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
+                if(finalUrl.includes('?')) {
+                    finalUrl = finalUrl.split('?')[0];
+                }
+            }
+
+            if (finalUrl.includes('youtube.com') || finalUrl.includes('vimeo')) {
+                videoHtml = `<iframe src="${finalUrl}?autoplay=1&rel=0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+            } else {
+                videoHtml = `<video src="${finalUrl}" controls autoplay playsinline></video>`;
+            }
+            
+            container.innerHTML = videoHtml;
+            modal.style.display = 'flex';
+
+            // Back button ke liye history mein entry push karo
+            history.pushState({ modalOpen: true }, '', '#video');
+        }
+
+        function closeModal() {
+            document.getElementById('videoModal').style.display = 'none';
+            document.getElementById('modalVideoContainer').innerHTML = ''; 
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('videoModal');
+            if (event.target == modal) {
+                closeModal();
+                // History clean karo agar modal manually close hua
+                if (location.hash === '#video') {
+                    history.back();
+                }
+            }
+        }
+
+        // Back button press hone par modal band ho, page nahi
+        window.addEventListener('popstate', function(event) {
+            const modal = document.getElementById('videoModal');
+            if (modal.style.display === 'flex') {
+                closeModal();
+            }
+        });
+    </script>
+    <!-- ========================================================== -->
+    <!-- ================= ⚙️ JAVASCRIPT SCRIPTS END ============== -->
+    <!-- ========================================================== -->
+</body>
+</html>

@@ -1174,6 +1174,9 @@
             
             container.innerHTML = videoHtml;
             modal.style.display = 'flex';
+
+            // Back button ke liye history mein entry push karo
+            history.pushState({ modalOpen: true }, '', '#video');
         }
 
         function closeModal() {
@@ -1185,8 +1188,20 @@
             const modal = document.getElementById('videoModal');
             if (event.target == modal) {
                 closeModal();
+                // History clean karo agar modal manually close hua
+                if (location.hash === '#video') {
+                    history.back();
+                }
             }
         }
+
+        // Back button press hone par modal band ho, page nahi
+        window.addEventListener('popstate', function(event) {
+            const modal = document.getElementById('videoModal');
+            if (modal.style.display === 'flex') {
+                closeModal();
+            }
+        });
     </script>
     <!-- ========================================================== -->
     <!-- ================= ⚙️ JAVASCRIPT SCRIPTS END ============== -->

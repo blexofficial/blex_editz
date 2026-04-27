@@ -294,7 +294,7 @@
         .video-modal-content { position: relative; width: 90%; max-width: 1000px; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 0 40px rgba(124, 109, 250, 0.4); animation: modalZoom 0.3s ease-out; }
         @keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .video-modal-content iframe, .video-modal-content video { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
-        .portrait-video iframe, .portrait-video video { aspect-ratio: 9/16; max-height: 85vh; width: auto; margin: 0 auto; }
+        .portrait-video iframe, .portrait-video video { aspect-ratio: 9/16; max-height: 85vh; max-width: 100%; width: auto; margin: 0 auto; display: block; }
         .close-modal { position: absolute; top: -40px; right: 0; color: white; font-size: 35px; font-weight: bold; cursor: pointer; z-index: 100001; transition: color 0.3s; }
         .close-modal:hover { color: var(--accent-pink); }
         .modal-wrapper { position: relative; width: 100%; display: flex; justify-content: center; }
